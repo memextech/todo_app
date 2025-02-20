@@ -1,11 +1,12 @@
-card_image: ''
+card_image: https://sample.memexdata.com/universe_images/net-todo-app.png
 created_at: 2025-02-20 00:03:46.672000
 creator_id: unknown
 deployment:
   last_deployed: null
   type: null
   url: ''
-description: Todo application with REST API, Website and local database
+description: Todo application with REST API, Tailwind CSS styled website and local
+  database
 domain: ''
 features:
 - ''
@@ -15,15 +16,15 @@ git:
   branch: null
   remote: null
   url: https://github.com/memextech/todo_app
-hero_image: ''
+hero_image: https://sample.memexdata.com/universe_images/net-todo-app.png
 icon: ''
-is_published: false
+is_published: true
 pills:
 - icon: ''
   label: ''
   prompt: ''
 project_id: YzhkwMe7PDw4EiXVK7y3
-published_at: null
+published_at: 2025-02-20 00:04:47.151000
 requirements:
 - description: ''
   type: ''
@@ -34,10 +35,10 @@ storage:
   last_sync: null
   max_file_size_mb: null
   size_bytes: null
-title: .Net Core Todo Application
+title: .Net Core Todo App
 tools:
 - name: ''
   role: ''
   type: ''
   version: ''
-updated_at: 2025-02-20 00:03:46.672000
+updated_at: 2025-02-20 00:04:47.151000
