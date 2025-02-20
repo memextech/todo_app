@@ -1,0 +1,120 @@
+@model IEnumerable<TodoWeb.Models.Todo>
+
+@{
+    ViewData["Title"] = "Tasks";
+}
+
+<div class="mx-auto max-w-7xl px-6 lg:px-8">
+    <div class="mx-auto max-w-4xl py-8">
+        <div class="flex justify-between items-center mb-8">
+            <div>
+                <h1 class="text-3xl font-bold text-gray-900">Tasks</h1>
+                <p class="mt-2 text-sm text-gray-600">Manage your daily activities</p>
+            </div>
+            <a asp-action="Create" 
+               class="inline-flex items-center px-4 py-2 bg-primary text-white font-semibold rounded-lg shadow-sm hover:bg-blue-700 transition duration-300">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                </svg>
+                New Task
+            </a>
+        </div>
+
+        <div class="bg-white overflow-hidden shadow-lg rounded-lg border border-gray-200">
+                @if (Model.Any())
+                {
+                    <ul role="list" class="divide-y divide-gray-200">
+                        @foreach (var item in Model)
+                        {
+                            <li class="group hover:bg-gray-50 transition-all duration-200">
+                                <div class="px-6 py-4 flex items-center justify-between">
+                                    <div class="flex items-center min-w-0">
+                                        <div class="flex-shrink-0">
+                                            @if (item.IsComplete)
+                                            {
+                                                <span class="flex h-10 w-10 items-center justify-center rounded-full bg-green-100">
+                                                    <svg class="h-6 w-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                                    </svg>
+                                                </span>
+                                            }
+                                            else
+                                            {
+                                                <span class="flex h-10 w-10 items-center justify-center rounded-full bg-blue-100">
+                                                    <svg class="h-6 w-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                                                    </svg>
+                                                </span>
+                                            }
+                                        </div>
+                                        <div class="ml-4 min-w-0">
+                                            <p class="@(item.IsComplete ? "line-through text-gray-500" : "text-gray-900") text-lg font-medium">
+                                                @item.Title
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center space-x-4">
+                                        <form asp-action="ToggleComplete" asp-route-id="@item.Id" class="flex-shrink-0">
+                                            @Html.AntiForgeryToken()
+                                            <button type="submit" 
+                                                    class="@(item.IsComplete 
+                                                        ? "bg-yellow-100 text-yellow-700 hover:bg-yellow-200" 
+                                                        : "bg-blue-100 text-blue-700 hover:bg-blue-200") 
+                                                    inline-flex items-center px-4 py-2 rounded-full text-sm font-medium transition-all duration-200">
+                                                @if (item.IsComplete)
+                                                {
+                                                    <svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                                                    </svg>
+                                                    <span>Undo</span>
+                                                }
+                                                else
+                                                {
+                                                    <svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                                    </svg>
+                                                    <span>Complete</span>
+                                                }
+                                            </button>
+                                        </form>
+                                        <form asp-action="Delete" asp-route-id="@item.Id" class="flex-shrink-0">
+                                            @Html.AntiForgeryToken()
+                                            <button type="submit"
+                                                    class="bg-red-100 text-red-700 hover:bg-red-200 inline-flex items-center px-4 py-2 rounded-full text-sm font-medium transition-all duration-200"
+                                                    onclick="return confirm('Are you sure you want to delete this task?')">
+                                                <svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                                                </svg>
+                                                <span>Delete</span>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </li>
+                        }
+                    </ul>
+                }
+                else
+                {
+                    <div class="text-center py-16 px-6">
+                        <svg class="mx-auto h-16 w-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                  d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                        </svg>
+                        <h3 class="mt-4 text-lg font-medium text-gray-900">No tasks yet</h3>
+                        <p class="mt-2 text-gray-500">Get started by creating your first task.</p>
+                        <div class="mt-8">
+                            <a asp-action="Create" 
+                               class="inline-flex items-center px-6 py-3 bg-primary text-white font-semibold rounded-full shadow-lg hover:bg-blue-700 transition duration-300">
+                                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                                </svg>
+                                Create First Task
+                            </a>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
