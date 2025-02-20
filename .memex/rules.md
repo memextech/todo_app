@@ -42,13 +42,6 @@ dotnet ef migrations add InitialCreate
 dotnet ef database update
 ```
 
-### Run API
-```bash
-dotnet run --launch-profile "http"
-```
-API runs on http://localhost:5200
-Swagger UI: http://localhost:5200/swagger
-
 ## 2. Create Web Frontend
 ```bash
 dotnet new mvc -n TodoWeb
@@ -126,28 +119,27 @@ libman restore
    - Create.cshtml - Create form with Tailwind styling
 4. **Views/Shared/_Layout.cshtml** - Base layout with Tailwind configuration
 
-### Styling Guidelines
-1. Container structure for consistent alignment:
-```html
-<div class="mx-auto max-w-7xl px-6 lg:px-8">
-    <div class="mx-auto max-w-4xl py-8">
-        <!-- Content here -->
-    </div>
-</div>
-```
 
-2. Common button styles:
-```html
-<button class="inline-flex items-center px-4 py-2 bg-primary text-white font-semibold rounded-lg shadow-sm hover:bg-blue-700 transition duration-300">
-    <!-- Button content -->
-</button>
-```
+### Runing the app
 
-### Run Web App
-```bash
-dotnet run
-```
+# Stop any existing dotnet processes
+pkill -f "dotnet" && echo "Stopped all processes" && \
+
+# Start API and redirect output to api.log
+cd project_folder/TodoApi && ASPNETCORE_ENVIRONMENT=Development dotnet run --launch-profile "http" > api.log 2>&1 & echo "API started with PID: $!" && \
+
+# Wait for API to start
+sleep 3 && \
+
+# Start Web App with hot reload and redirect output to web.log
+cd project_folder/TodoWeb && ASPNETCORE_ENVIRONMENT=Development dotnet watch run --launch-profile "http" > web.log 2>&1 & echo "Web App started with hot reload, PID: $!"
+
+API runs on http://localhost:5200
+Swagger UI: http://localhost:5200/swagger
+
 Web app runs on http://localhost:5153
+
+Tell user on which port the app is running before starting
 
 ## Important Notes
 - Always run API before starting the web app
